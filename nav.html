@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HubCredo — Our Team</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: #ffffff;
+    color: #0b0710;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .team-section {
+    padding: 100px 6.5vw 120px;
+    background: #ffffff;
+    position: relative;
+  }
+
+  .section-heading {
+    max-width: 1230px;
+    margin: 0 auto 56px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    gap: 60px;
+  }
+
+  .section-heading-left .eyebrow {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 22px;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.16em;
+    color: #9633f6;
+    text-transform: uppercase;
+  }
+
+  .section-heading-left .eyebrow-line {
+    width: 36px;
+    height: 2px;
+    background: #9633f6;
+    display: inline-block;
+  }
+
+  .section-heading h2 {
+    font-family: 'Manrope', sans-serif;
+    font-size: clamp(44px, 5.6vw, 82px);
+    font-weight: 800;
+    letter-spacing: -0.04em;
+    line-height: 0.98;
+    margin: 0;
+  }
+
+  .section-heading h2 span {
+    color: #9633f6;
+  }
+
+  .section-intro {
+    max-width: 380px;
+    color: #605c65;
+    font-size: 16px;
+    line-height: 1.55;
+    margin-bottom: 6px;
+  }
+
+  .team-grid {
+    max-width: 1230px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 22px;
+  }
+
+  .team-card {
+    position: relative;
+    overflow: hidden;
+    border-radius: 16px;
+    aspect-ratio: 3 / 4;
+    background: #e8e2eb;
+    cursor: pointer;
+    isolation: isolate;
+  }
+
+  .team-card img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.55s cubic-bezier(0.2, 0.7, 0.2, 1);
+  }
+
+  .team-card:hover img,
+  .team-card.is-active img {
+    transform: scale(1.055);
+  }
+
+  .team-card-shade {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    background: linear-gradient(to top, rgba(6, 3, 10, 0.93) 0%, rgba(6, 3, 10, 0.08) 64%);
+    pointer-events: none;
+  }
+
+  .team-card-info {
+    position: absolute;
+    z-index: 2;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    gap: 10px;
+    padding: 22px 20px;
+    color: #ffffff;
+    transition: transform 0.35s ease;
+  }
+
+  .team-card-info h3 {
+    font-family: 'Manrope', sans-serif;
+    font-size: 19px;
+    font-weight: 700;
+    letter-spacing: -0.035em;
+    line-height: 1.15;
+    margin: 0 0 5px;
+    color: #ffffff !important;
+  }
+
+  .team-card-info p {
+    margin: 0;
+    color: #d8d1dd;
+    font-size: 12px;
+  }
+
+  .card-arrow {
+    width: 34px;
+    height: 34px;
+    flex: 0 0 auto;
+    border: 1px solid rgba(255, 255, 255, 0.55);
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    color: #fff;
+    transition: background 0.25s ease, color 0.25s ease;
+    font-size: 16px;
+    line-height: 1;
+  }
+
+  .team-card:hover .card-arrow,
+  .team-card.is-active .card-arrow {
+    background: #ffffff;
+    color: #0b0710;
+  }
+
+  .team-card-bio {
+    position: absolute;
+    z-index: 3;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 22px 20px 20px;
+    background: rgba(16, 8, 24, 0.93);
+    color: #ffffff;
+    transform: translateY(100%);
+    transition: transform 0.35s ease;
+  }
+
+  .team-card:hover .team-card-bio,
+  .team-card.is-active .team-card-bio {
+    transform: translateY(0);
+  }
+
+  .bio-scroll {
+    max-height: 160px;
+    overflow-y: auto;
+    margin-bottom: 12px;
+  }
+
+  .bio-scroll p {
+    font-size: 12.5px;
+    line-height: 1.5;
+    color: #e8e1eb;
+    margin: 0;
+  }
+
+  .read-bio-link {
+    color: #cda0f8;
+    text-decoration: none;
+    font-size: 12px;
+    font-weight: 700;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+  }
+
+  .read-bio-link::after {
+    content: "\2192";
+  }
+
+  .mobile-hint {
+    display: none;
+    text-align: center;
+    color: #77717e;
+    font-size: 12px;
+    margin-top: 22px;
+  }
+
+  .bio-scroll::-webkit-scrollbar { width: 4px; }
+  .bio-scroll::-webkit-scrollbar-track { background: transparent; }
+  .bio-scroll::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.35); border-radius: 4px; }
+
+  @media (max-width: 900px) {
+    .team-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+    .section-heading {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 24px;
+    }
+    .section-intro {
+      max-width: 530px;
+    }
+  }
+
+  @media (max-width: 560px) {
+    .team-section {
+      padding: 70px 20px 80px;
+    }
+    .section-heading {
+      margin-bottom: 36px;
+    }
+    .section-heading h2 {
+      font-size: 46px;
+    }
+    .section-intro {
+      font-size: 15px;
+    }
+    .team-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+    }
+    .team-card {
+      aspect-ratio: 4 / 5.3;
+      border-radius: 12px;
+    }
+    .team-card-info {
+      padding: 14px 12px;
+    }
+    .team-card-info h3 {
+      font-size: 14px;
+      margin-bottom: 3px;
+    }
+    .team-card-info p {
+      font-size: 10px;
+    }
+    .card-arrow {
+      width: 26px;
+      height: 26px;
+      font-size: 13px;
+    }
+    .team-card-bio {
+      padding: 14px 12px;
+    }
+    .bio-scroll {
+      max-height: 130px;
+      margin-bottom: 10px;
+    }
+    .bio-scroll p {
+      font-size: 10.5px;
+      line-height: 1.42;
+    }
+    .read-bio-link {
+      font-size: 10px;
+    }
+    .mobile-hint {
+      display: block;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      transition-duration: 0.01ms !important;
+    }
+  }
+</style>
+</head>
+<body>
+
+<section class="team-section" aria-labelledby="team-heading">
+  <div class="section-heading">
+    <div class="section-heading-left">
+      <p class="eyebrow"><span class="eyebrow-line"></span> OUR TEAM</p>
+      <h2 id="team-heading">Our team is<br><span>here to help.</span></h2>
+    </div>
+    <p class="section-intro">A diverse group of specialists, united by curiosity, sharp thinking, and a shared commitment to making our clients' success easier to achieve.</p>
+  </div>
+
+  <div class="team-grid">
+
+    <!-- CARD 1 — Ian Jason Creado -->
+    <div class="team-card" onclick="toggleCard(this)">
+      <img src="https://hubcredo.com/wp-content/uploads/2025/09/Ian.png" alt="Ian Jason Creado">
+      <div class="team-card-shade"></div>
+      <div class="team-card-info">
+        <div>
+          <h3>Ian Jason Creado</h3>
+          <p>Co-founder</p>
+        </div>
+        <span class="card-arrow">&rarr;</span>
+      </div>
+      <div class="team-card-bio">
+        <div class="bio-scroll">
+          <p>Ian is a co-founder at HubCredo, where he looks after operations, making sure client research, outbound and inbound activity, and the automation behind them run smoothly and consistently, not dependent on any one person on any given day. Before HubCredo, Ian worked in sales and business development, including a stint as Director of Business Development at Trillbit, where he worked on GTM strategy, outbound, and hiring for a SaaS product. He's also consulted with 40+ SMEs on their growth strategies along the way. Outside of work, Ian spends his time on open sea swimming, treks, and long drives.</p>
+        </div>
+        <a href="#" class="read-bio-link">Read bio</a>
+      </div>
+    </div>
+
+    <!-- CARD 2 — Simon Gittins -->
+    <div class="team-card" onclick="toggleCard(this)">
+      <img src="https://hubcredo.com/wp-content/uploads/2025/09/Simon.png" alt="Simon Gittins">
+      <div class="team-card-shade"></div>
+      <div class="team-card-info">
+        <div>
+          <h3>Simon Gittins</h3>
+          <p>Chief Marketing Officer</p>
+        </div>
+        <span class="card-arrow">&rarr;</span>
+      </div>
+      <div class="team-card-bio">
+        <div class="bio-scroll">
+          <p>Simon is a senior marketing and commercial leader with 35 years of experience, including 25 years in senior leadership roles across marketing, digital, creative, agency and business development. An AI-certified professional and Frontier AI Trainer, he brings a strong understanding of how emerging AI technologies can be applied to marketing, GTM and commercial growth. At HubCredo, he focuses on commercial growth, client relationships, GTM strategy and building a strong, cohesive market position. With a strong creative background, Simon brings together strategy, creativity, technology, AI and marketing, helping businesses connect their brand, proposition, messaging and go-to-market activity into a clear and compelling whole. Throughout his career, he has worked with businesses ranging from growing SMEs to major enterprise brands, helping them develop propositions, win new business, grow client relationships and deliver sustainable commercial growth. Outside of work, Simon enjoys spending time with his family, following Newcastle United, keeping fit, travelling and making the most of the outdoors.</p>
+        </div>
+        <a href="#" class="read-bio-link">Read bio</a>
+      </div>
+    </div>
+
+    <!-- CARD 3 — Prateek Shrivastava -->
+    <div class="team-card" onclick="toggleCard(this)">
+      <img src="https://hubcredo.com/wp-content/uploads/2025/09/Prateek.png" alt="Prateek Shrivastava">
+      <div class="team-card-shade"></div>
+      <div class="team-card-info">
+        <div>
+          <h3>Prateek Shrivastava</h3>
+          <p>Project Manager</p>
+        </div>
+        <span class="card-arrow">&rarr;</span>
+      </div>
+      <div class="team-card-bio">
+        <div class="bio-scroll">
+          <p>Prateek is a Project Manager with a strong focus on client relationships, project delivery, and digital growth. He works closely with clients to understand their goals, turn requirements into clear action plans, and ensure projects are delivered smoothly and effectively. In his role, Prateek manages day-to-day client communication, coordinates with internal teams, supports the sales and tender process, and helps clients get the most value from their websites and digital marketing activities. He brings a structured and practical approach to project management, ensuring priorities are clear, stakeholders remain aligned, and projects continue moving forward. With experience across project management, digital marketing, lead generation, and client services, Prateek combines strategic thinking with hands-on execution. He particularly enjoys taking complex or unstructured requirements and turning them into well-defined plans that deliver measurable results. Outside of work, Prateek enjoys exploring new ideas, learning about technology and digital trends, and spending time on creative pursuits. He believes that good project management is ultimately about people, clarity, and making sure the right things get done at the right time.</p>
+        </div>
+        <a href="#" class="read-bio-link">Read bio</a>
+      </div>
+    </div>
+
+    <!-- CARD 4 — Gautam Anand -->
+    <div class="team-card" onclick="toggleCard(this)">
+      <img src="https://hubcredo.com/wp-content/uploads/2025/09/Gautam.png" alt="Gautam Anand">
+      <div class="team-card-shade"></div>
+      <div class="team-card-info">
+        <div>
+          <h3>Gautam Anand</h3>
+          <p>AI Product Manager</p>
+        </div>
+        <span class="card-arrow">&rarr;</span>
+      </div>
+      <div class="team-card-bio">
+        <div class="bio-scroll">
+          <p>Gautam Anand is an AI Product Manager focused on designing and strategising AI-powered automation products that solve business problems in the most efficient, scalable, and seamless way. He works closely with clients to understand their existing processes, identify opportunities for automation, and translate their requirements into practical end-to-end solutions. At Hubcredo, Gautam designs AI automation products that streamline complex business workflows across GTM, operations, and other business functions. He focuses on identifying process gaps, defining solutions, and building end-to-end automation systems covering lead generation, enrichment, qualification, personalisation, campaign orchestration, CRM, follow-ups, and other operational workflows. He also ensures product quality through testing, documentation, and close coordination with development teams to deliver reliable, client-ready solutions. Before joining Hubcredo, Gautam worked in startup Founder's Office roles across product and business development, gaining experience in product strategy, partnerships, positioning, and go-to-market. He also contributed to a patented ear-based brain-mapping technology and helped companies strategise product positioning for major technology events, including CES. Outside of work, Gautam enjoys exploring different kinds of food and, especially, discovering new desserts.</p>
+        </div>
+        <a href="#" class="read-bio-link">Read bio</a>
+      </div>
+    </div>
+
+    <!-- CARD 5 — Bhuvan -->
+    <div class="team-card" onclick="toggleCard(this)">
+      <img src="https://hubcredo.com/wp-content/uploads/2025/09/Bhuvan.png" alt="Bhuvan">
+      <div class="team-card-shade"></div>
+      <div class="team-card-info">
+        <div>
+          <h3>Bhuvan</h3>
+          <p>GTM Engineer</p>
+        </div>
+        <span class="card-arrow">&rarr;</span>
+      </div>
+      <div class="team-card-bio">
+        <div class="bio-scroll">
+          <p>Bhuvan is a GTM Engineer at HubCredo, focused on building systems that help businesses find, understand, and reach the right prospects. His work spans lead generation, data enrichment, outbound automation, and AI-powered GTM workflows, connecting technology, data, and automation to make go-to-market processes more efficient. He works with tools such as n8n, Clay, Apollo, and Supabase, while also exploring AI agents, agentic workflows, and MCP servers to build more intelligent and scalable GTM systems. His work includes prospect research, enrichment, qualification, routing, and personalized outbound, with a growing focus on building systems that can operate with greater autonomy. A big part of his work involves understanding how different pieces of a GTM motion fit together and turning repetitive or fragmented processes into reliable systems. He enjoys working at the intersection of technology, data, and sales, especially when automation and AI can transform a manual process into something scalable and repeatable. Over the years, Bhuvan has developed a strong interest in understanding what GTM really means, how different parts of a go-to-market motion work together, and how technology can improve the entire process. He is particularly interested in experimenting with emerging AI capabilities and finding practical ways to apply AI agents, agentic workflows, and MCPs to real-world GTM challenges.</p>
+        </div>
+        <a href="#" class="read-bio-link">Read bio</a>
+      </div>
+    </div>
+
+    <!-- CARD 6 — Karuna Shirali -->
+    <div class="team-card" onclick="toggleCard(this)">
+      <img src="https://hubcredo.com/wp-content/uploads/2025/09/Karuna.png" alt="Karuna Shirali">
+      <div class="team-card-shade"></div>
+      <div class="team-card-info">
+        <div>
+          <h3>Karuna Shirali</h3>
+          <p>Content Writer</p>
+        </div>
+        <span class="card-arrow">&rarr;</span>
+      </div>
+      <div class="team-card-bio">
+        <div class="bio-scroll">
+          <p>Karuna is the Content Writer at HubCredo, where she works on B2B content and messaging that helps businesses connect with the right audience and generate leads. She writes across LinkedIn campaigns, email campaigns, LinkedIn posts, landing pages, newsletters, and other conversion-focused content. A main part of her work is understanding who we're speaking to and turning that research into messaging that feels relevant and natural. She works across different industries and audiences, adapting the tone and approach to each brand. She also works closely with marketing and lead generation campaigns, testing different messaging styles and editing content based on how audiences respond. Before HubCredo, she worked as a Growth Marketer &amp; Copywriter at a marketing agency, where she combined copywriting with lead generation and campaign strategy. She wrote LinkedIn outreach, cold email campaigns, social media content, and ad copy while also analysing campaign performance. Over the years, she has developed a strong interest in understanding the audience behind the content, not just what a business wants to say, but what its customers actually care about and how the message can be made more relevant to them. She enjoys finding the right tone for different brands and turning ideas or complex topics into content that feels clear, relatable, and purposeful.</p>
+        </div>
+        <a href="#" class="read-bio-link">Read bio</a>
+      </div>
+    </div>
+
+    <!-- CARD 7 — Vanshita Bafna -->
+    <div class="team-card" onclick="toggleCard(this)">
+      <img src="https://hubcredo.com/wp-content/uploads/2025/09/Vanshita.png" alt="Vanshita Bafna">
+      <div class="team-card-shade"></div>
+      <div class="team-card-info">
+        <div>
+          <h3>Vanshita Bafna</h3>
+          <p>Sales Automation Specialist</p>
+        </div>
+        <span class="card-arrow">&rarr;</span>
+      </div>
+      <div class="team-card-bio">
+        <div class="bio-scroll">
+          <p>Vanshita is a Sales Automation Specialist at HubCredo, working at the point where outbound processes stop being manual and start running as systems. Her focus is on the machinery behind lead generation, enrichment, scoring, routing, and delivery. Her toolkit centers on n8n and Clay, backed by Apollo.io, Instantly, Reply.io, and Airtable, with Apify, Firecrawl, Playwright, and Tavily for scraping and enrichment. For clients, this means fewer manual handoffs and faster time-to-lead: she maps out where their GTM motion is leaking time or dropping prospects, then builds the automation that plugs that gap. Her approach to GTM engineering is less "install a tool" and more "redesign the process so the tool actually holds," and she's increasingly pulling AI agents and agentic workflows into that mix, shifting routine judgment calls from people onto the systems themselves. Coming from a robotics and automation engineering background, Vanshita treats sales processes like any other messy system: find the repeatable logic inside it, then build something that runs on its own. That's the instinct driving her current push, making these systems less brittle and more autonomous, able to handle exceptions instead of breaking on them. Outside work, she runs on friends, weekend getaways, and a self-appointed sushi audit of every spot around her.</p>
+        </div>
+        <a href="#" class="read-bio-link">Read bio</a>
+      </div>
+    </div>
+
+    <!-- CARD 8 — Sumit Gupta -->
+    <div class="team-card" onclick="toggleCard(this)">
+      <img src="https://hubcredo.com/wp-content/uploads/2025/09/Sumit.png" alt="Sumit Gupta">
+      <div class="team-card-shade"></div>
+      <div class="team-card-info">
+        <div>
+          <h3>Sumit Gupta</h3>
+          <p>Sales Automation Specialist</p>
+        </div>
+        <span class="card-arrow">&rarr;</span>
+      </div>
+      <div class="team-card-bio">
+        <div class="bio-scroll">
+          <p>Sumit is a Sales Automation Specialist at HubCredo, working on systems that help streamline how the company automates workflows and connects tools across the sales and marketing stack. His work spans workflow automation, data enrichment, and integrating outbound tools via APIs and webhooks, alongside some web development work to support HubCredo's internal and client-facing needs. He works with tools like n8n, Postman and Google Gemini/OpenAI APIs for automation, along with Next.js, React, Github and REST APIs for web development. He enjoys building clean pipelines that turn manual, repetitive tasks into automated, scalable processes - whether that's a lead workflow, a data enrichment pipeline, or a simple internal tool. Sumit has a growing interest in the intersection of automation, AI, and web development, and enjoys experimenting with n8n and AI-powered workflows to solve practical business problems. He's continuing to build his skills across full-stack development and automation as he works toward becoming a well-rounded AI/automation engineer.</p>
+        </div>
+        <a href="#" class="read-bio-link">Read bio</a>
+      </div>
+    </div>
+
+  </div>
+
+  <p class="mobile-hint">Tap a profile to read more</p>
+</section>
+
+<script>
+  function toggleCard(card) {
+    card.classList.toggle('is-active');
+  }
+</script>
+
+</body>
+</html>

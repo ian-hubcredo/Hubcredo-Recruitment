@@ -5,7 +5,7 @@ import {
 } from 'lucide-react';
 import { useAuth } from '@/lib/auth';
 
-export type DashboardPage = 'overview' | 'clients' | 'candidates' | 'leads' | 'linkedin' | 'campaigns' | 'inboxkit' | 'replyio' | 'settings' | 'inbox';
+export type DashboardPage = 'overview' | 'clients' | 'candidates' | 'leads' | 'linkedin' | 'campaigns' | 'outreach' | 'roles' | 'inboxkit' | 'replyio' | 'settings' | 'inbox';
 
 const navItems: { id: DashboardPage; label: string; icon: typeof LayoutDashboard }[] = [
   { id: 'overview', label: 'Dashboard', icon: LayoutDashboard },

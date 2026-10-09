@@ -1,6 +1,7 @@
 import { useState, useEffect, useCallback } from "react";
-import { ArrowRight, Users, Briefcase, Building2, CalendarDays, Loader2, Mail, Linkedin } from "lucide-react";
+import { ArrowRight, Users, Briefcase, Building2, CalendarDays, Loader as Loader2, Mail, Linkedin } from "lucide-react";
 import { supabase } from "../lib/supabase";
+import type { DashboardPage } from "@/pages/DashboardLayout";
 
 const BASE = import.meta.env.BASE_URL.replace(/\/$/, "");
 
@@ -30,7 +31,7 @@ interface ReplySeq { id: number; name: string; status: string; isArchived: boole
 interface ReplyStats { total: number; opened: number; replied: number; bounced: number; }
 interface LiStats { connectionsSent: number; acceptedAutomatedConnections: number; messagesSent: number; replies: number; }
 
-export default function OverviewPage({ onNavigate }: { onNavigate?: (page: string) => void }) {
+export default function OverviewPage({ onNavigate }: { onNavigate?: (page: DashboardPage) => void }) {
   const [stats, setStats] = useState<DashboardStats | null>(null);
   const [statsLoading, setStatsLoading] = useState(true);
 
@@ -135,7 +136,7 @@ export default function OverviewPage({ onNavigate }: { onNavigate?: (page: strin
   }, []);
 
   // ── UPDATED: Candidates in Play / Awaiting Client now come from leadCounts, with their own loading flag ──
-  const statCards = [
+  const statCards: { label: string; value: number | undefined; loading: boolean; icon: typeof Briefcase; page: DashboardPage; color: string; bg: string }[] = [
     { label: "Open Roles", value: stats?.open_roles, loading: statsLoading, icon: Briefcase, page: "roles", color: "#2563EB", bg: "#EFF6FF" },
     { label: "Candidates in Play", value: leadCounts.candidatesInPlay, loading: leadCountsLoading, icon: Users, page: "candidates", color: "#059669", bg: "#F0FDF4" },
     { label: "Awaiting Client", value: leadCounts.awaitingClient, loading: leadCountsLoading, icon: Building2, page: "clients", color: "#7C3AED", bg: "#F5F3FF" },
@@ -258,9 +259,9 @@ export default function OverviewPage({ onNavigate }: { onNavigate?: (page: strin
         <h2 style={{ fontSize: "0.9375rem", fontWeight: 700, color: "#0A0A0A", margin: "0 0 14px" }}>Quick actions</h2>
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", gap: 12 }}>
           {[
-            { page: "candidates", icon: Users, title: "Source candidates", sub: "Search LinkedIn for talent" },
-            { page: "clients", icon: Building2, title: "Add a client", sub: "Manage hiring companies" },
-            { page: "roles", icon: Briefcase, title: "Open a role", sub: "Track a new search" },
+            { page: "candidates" as DashboardPage, icon: Users, title: "Source candidates", sub: "Search LinkedIn for talent" },
+            { page: "clients" as DashboardPage, icon: Building2, title: "Add a client", sub: "Manage hiring companies" },
+            { page: "roles" as DashboardPage, icon: Briefcase, title: "Open a role", sub: "Track a new search" },
           ].map(({ page, icon: Icon, title, sub }) => (
             <button
               key={page}
